@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class LogFileReader {
 
-	public static void Input(String name, int line, int numberLine, String nameNewFile)
+	public static void InputAndOutput(String name, int line, int numberLine, String nameNewFile)
 			throws IOException {
 
 		String path, pathNew;
@@ -34,16 +34,52 @@ public class LogFileReader {
 		out.close();
 
 	}
+	
+	public static Log Parse (String line)
+	{
+		Log log = new Log();
+		
+		String[] words = line.split("( - - )|( \\[)|(\\])|(\\[)|(\\\"\\s)|( \\\")| (?=-$)| (?=\\d+$)");
+		
+		log.host=words[0];
+		log.time = words[3];
+		log.request = words[4];
+		log.code = Integer.parseInt(words[5]);
+		log.size = Integer.parseInt(words[6]);
+		
+		return log;
+	}
+	
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-		String name = args[0];
+		String name = args[0]; 
 		int line =Integer.parseInt(args[1]);
 		int numberLine = Integer.parseInt(args[2]);
-		String nameNewFile = args[3];
-		//Input(name, line, numberLine);
-		Input(name, line, numberLine,nameNewFile);
+		//String nameNewFile = args[3];
+		String path;
+		path = "C:\\Users\\g6\\Documents\\Eclipse\\logReader\\bin\\" + name;
+		BufferedReader in = new BufferedReader(new FileReader(path));
+		int j = 1;
+		String s;
+		while ((s = in.readLine())!=null) {
+
+			if (j >= line && j < line+ numberLine )
+			{
+				System.out.println(s);
+				Parse(s).Print();
+				
+			}
+			else if (j == line+ numberLine)
+			{
+				break;
+			}
+				j++;
+			
+		}
+		in.close();
+		//Input(name, line, numberLine,nameNewFile);
 
 	}
 
