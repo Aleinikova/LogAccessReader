@@ -2,8 +2,6 @@ package logfile;
 
 import java.util.Date;
 
-
-
 public class LogFileRecord {
 
 	private String host;
@@ -11,7 +9,7 @@ public class LogFileRecord {
 	private String request;
 	private int code;
 	private int size;
-	
+
 	public String getHost() {
 		return host;
 	}
@@ -52,12 +50,11 @@ public class LogFileRecord {
 		this.size = size;
 	}
 
-	@Override 
-	public String toString ()
-	{
-		return host+ " " + time+ " " + " " + request + " " + code + " " + size;
-		
+	@Override
+	public String toString() {
+		return host + " " + time + " " + " " + request + " " + code + " "
+				+ size;
+
 	}
-	
 
 }

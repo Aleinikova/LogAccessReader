@@ -1,4 +1,5 @@
 package logfile;
+
 public class RecordPrinter implements IRecordPrinter {
 
 	@Override

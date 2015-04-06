@@ -7,32 +7,30 @@ import java.util.ArrayList;
 
 public class FileProcess implements IFileProcess {
 
-	private IParseRecord parser = new ParseRecord ();
+	private IParseRecord parser = new ParseRecord();
 	private IRecordPrinter printer = new RecordPrinter();
-	
-	
-	public FileProcess (IParseRecord parser, IRecordPrinter printer)
-	{
+
+	public FileProcess(IParseRecord parser, IRecordPrinter printer) {
 		this.parser = parser;
 		this.printer = printer;
 	}
 
-
 	@Override
-	public ArrayList<LogFileRecord> readLine(String path, int line, int numberLine) {
-		
-		ArrayList<LogFileRecord> listLogRecord = new ArrayList<LogFileRecord>(); 
+	public ArrayList<LogFileRecord> readLine(String path, int line,
+			int numberLine) {
 
-		try{
-			
-			//pathNew = "C:\\Users\\g6\\Documents\\Eclipse\\logReader\\bin\\"+ nameNewFile;
+		ArrayList<LogFileRecord> listLogRecord = new ArrayList<LogFileRecord>();
+
+		try {
+
+			// pathNew = "C:\\Users\\g6\\Documents\\Eclipse\\logReader\\bin\\"+
+			// nameNewFile;
 			BufferedReader in = new BufferedReader(new FileReader(path));
-			//BufferedWriter out = new BufferedWriter(new FileWriter(pathNew));
+			// BufferedWriter out = new BufferedWriter(new FileWriter(pathNew));
 			int j = 1;
 			String s;
 			LogFileRecord log = new LogFileRecord();
-			
-			
+
 			while ((s = in.readLine()) != null) {
 
 				if (j >= line && j < line + numberLine) {
@@ -47,18 +45,15 @@ public class FileProcess implements IFileProcess {
 
 			}
 			in.close();
-			
-			//out.close();
-		}
-		catch (IOException e) {
-			
+
+			// out.close();
+		} catch (IOException e) {
+
 			System.out.println("File");
 		}
-		
+
 		return listLogRecord;
-		
-		
-		}
+
+	}
 
 }
-
