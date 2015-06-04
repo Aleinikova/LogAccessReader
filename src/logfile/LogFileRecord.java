@@ -1,8 +1,9 @@
 package logfile;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LogFileRecord {
+public class LogFileRecord {//implements Serializable{
 
 	private String host;
 	private Date time;

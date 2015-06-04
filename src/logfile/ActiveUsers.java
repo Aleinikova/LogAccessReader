@@ -2,37 +2,41 @@ package logfile;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-public class ActiveUsers implements IActiveUsers {
+public class ActiveUsers implements
+		IReportGenerator<Parametrs,ArrayList<MyMap>> {
+
+	private ArrayList<MyMap> list = new ArrayList<MyMap>();
 
 	@Override
-	public ArrayList<MyMap> users(ArrayList<LogFileRecord> listLogRecord,
-			Date before, Date after) {
+	public ArrayList<MyMap> get() {
+		Collections.sort(list);
+		ArrayList<MyMap> resList = new ArrayList<MyMap>();
+		if (list.size() < 3)
+			resList = list;
+		else {
+			resList.add(list.get(0));
+			resList.add(list.get(1));
+			resList.add(list.get(2));
+		}
+		return resList;
 
-		ArrayList<MyMap> list = new ArrayList<MyMap>();
-		MyMap mapusers;
-		for (int i = 0; i < listLogRecord.size(); i++) {
-			 mapusers = new MyMap();
+	}
 
-			if ((listLogRecord.get(i).getTime()).after(before)
-					&& (listLogRecord.get(i).getTime()).before(after)) {
-				
-				if (mapusers.containsKey(listLogRecord.get(i).getHost(), list)) {
-					mapusers.setValue(listLogRecord.get(i).getHost(), list);
-				} else {
-					mapusers.setKey(listLogRecord.get(i).getHost());
-					mapusers.setValue(1);
-					list.add(mapusers);
-				}
+	@Override
+	public void generate(Parametrs params) {
 
-			}
-			
+		// ArrayList<MyMap> list = new ArrayList<MyMap>();
+		MyMap mapusers = new MyMap();
+
+		if (mapusers.containsKey(params.logRecord.getHost(), list)) {
+			mapusers.setValue(params.logRecord.getHost(), list);
+		} else {
+			mapusers.setKey(params.logRecord.getHost());
+			mapusers.setValue(1);
+			list.add(mapusers);
 		}
 
-		Collections.sort(list);
-		
-		return list;
 	}
 
 }

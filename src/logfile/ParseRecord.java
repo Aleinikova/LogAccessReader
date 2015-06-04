@@ -14,6 +14,7 @@ public class ParseRecord implements IParseRecord {
 				.split("(( - - )|( \\[)|(\\])|(\\[)|(\\\"\\s)|( \\\")| (?=-$)| (?=\\d+$))+");
 
 		LogFileRecord log = new LogFileRecord();
+		//System.out.print(words[0]+"\n"+words[1]+"\n"+words[2]+"\n"+words[3]+"\n"+words[4]+"\n");
 		log.setHost(words[0]);
 		SimpleDateFormat format = new SimpleDateFormat(
 				"dd/MMMM/yyyy:HH:mm:ss ZZ", Locale.ENGLISH);
@@ -23,8 +24,12 @@ public class ParseRecord implements IParseRecord {
 			e.printStackTrace();
 		}
 		log.setRequest(words[2]);
+		words[3]=words[3].replaceAll(" ", "");
 		log.setCode(Integer.parseInt(words[3]));
-		log.setSize(Integer.parseInt(words[4]));
+		if (words[4].equals("-"))
+			log.setSize(0);
+		else
+			log.setSize(Integer.parseInt(words[4]));
 
 		return log;
 	}

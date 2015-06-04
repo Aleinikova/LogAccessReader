@@ -1,8 +1,8 @@
 package logfile;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 
 public class FileProcess implements IFileProcess {
@@ -25,25 +25,49 @@ public class FileProcess implements IFileProcess {
 
 			// pathNew = "C:\\Users\\g6\\Documents\\Eclipse\\logReader\\bin\\"+
 			// nameNewFile;
-			BufferedReader in = new BufferedReader(new FileReader(path));
+			//BufferedReader in = new BufferedReader(new FileReader(path));
 			// BufferedWriter out = new BufferedWriter(new FileWriter(pathNew));
+			LineNumberReader in = new LineNumberReader(new FileReader(path));
 			int j = 1;
-			String s;
-			LogFileRecord log = new LogFileRecord();
+			String str;
+			LogFileRecord logRecord = new LogFileRecord();
+			 MyStream reader = new MyStream();
+	            reader.setNumberOfStartLine(line);
+	            reader.setQuantityOfStrings(numberLine);
+	            //reader.setIn(in);
+	            reader.start();
+	            
+	           while(!reader.isEmpty()) {
 
-			while ((s = in.readLine()) != null) {
+	                str = reader.getLine();
+	                    try {
+	                        logRecord = parser.parse(str);
+	                        listLogRecord.add(logRecord);
+	                        printer.printRecord(logRecord);
+	                        //System.out.println(str);
+	                        //System.out.println(logRecord.toString());
+	                    }
+	                    catch (ArrayIndexOutOfBoundsException e)
+	                    {  
+	                        //System.out.println("Invalid format of string! Number of string: ");
+	                    }
+	                    
+	            }
 
-				if (j >= line && j < line + numberLine) {
-					log = parser.parse(s);
-					printer.printRecord(log);
-					listLogRecord.add(log);
+			/*while ((str = in.readLine()) != null) {
 
-				} else if (j == line + numberLine) {
+				if (j >= line && j < line + 10) {
+					System.out.println(str);
+					//log = parser.parse(str);
+					//printer.printRecord(log);
+					//listLogRecord.add(log);
+
+				} else if (j == line + 10) {
 					break;
 				}
 				j++;
 
-			}
+			}*/
 			in.close();
 
 			// out.close();

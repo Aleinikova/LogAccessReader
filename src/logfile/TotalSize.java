@@ -1,25 +1,23 @@
 package logfile;
 
-import java.util.ArrayList;
-import java.util.Date;
 
-public class TotalSize implements ITotalSize {
+public class TotalSize implements IReportGenerator<Parametrs,Integer> {
+	
+	private Integer allSize =0;
 
 	@Override
-	public int sizeAnswer(ArrayList<LogFileRecord> listLogRecord, Date before,
-			Date after) {
+	public void generate(Parametrs params) {
 
-		int size = 0;
-		for (int i = 0; i < listLogRecord.size(); i++) {
-
-			if ((listLogRecord.get(i).getTime()).after(before)
-					&& (listLogRecord.get(i).getTime()).before(after)) {
-				size += listLogRecord.get(i).getSize();
+			if ((params.logRecord.getTime()).after(params.before)
+					&& (params.logRecord.getTime()).before(params.after)) {
+				allSize += params.logRecord.getSize();
 
 			}
-
-		}
-		return size;
+	}
+	@Override
+	public Integer get ()
+	{
+		return allSize;
 	}
 
 }
